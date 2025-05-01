@@ -52,7 +52,7 @@
         }
     ],
     "changelog": [
-        {"title": "Bugfixes", "type": "fixed", "items": ["Fixed an issue with activity timestamps."]}
+        {"title": "Bugfixes", "type": "fixed", "items": ["Fixed a bug that affects activity timestamps."]}
     ],
     "build": {
         "copy": true,
