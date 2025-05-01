@@ -27,20 +27,20 @@ jobs:
         run: rm -rf /home/runner/work/${{ github.repository }}
 
       - name: checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-      
+
       - name: setup nodejs
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           always-auth: true
           registry-url: 'https://npm.pkg.github.com'
           node-version: 16.x
-        
+
       - name: install yocto-queue and bdbuilder
-        run: | 
+        run: |
           npm i yocto-queue
           npm i @betterdiscordbuilder/bdbuilder@latest --registry https://npm.pkg.github.com/
         env:
@@ -58,7 +58,7 @@ jobs:
           "--plugin=${{ github.event.inputs.plugin }}"
           ${{ steps.files.outputs.all }}
       - name: stage build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: .
@@ -72,12 +72,12 @@ jobs:
 
     steps:
       - name: restore repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: compiled
 
       - name: apply build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: .
