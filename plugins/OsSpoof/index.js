@@ -3,8 +3,9 @@ import BasePlugin from "@zlibrary/plugin";
 import forceUpdateApp from "./forceUpdateApp.js";
 import { set, get } from "./storage.js";
 import { discordWebSocket, webSocketValid } from "./WebSocket.js";
-import erlpack from 'erlpackjs'
 import { getRealPlatform, updateSpoofPlatform } from "./platform.js";
+import EtfDecoder from "./erlpack/decoder.js";
+import EtfEncoder from "./erlpack/encoder.js";
 
 let websocketInited = false;
 
@@ -20,7 +21,8 @@ export default class OsSpoof extends BasePlugin {
 		Patcher.before(WebSocket.prototype, "send", (that, args) => {
 			if (!(args[0] instanceof ArrayBuffer)) return;
 
-			const data = erlpack.unpack(args[0]);
+			const data = new EtfDecoder(args[0]).unpack();
+			let payloadModified = false;
 
 			if (that.url.startsWith("wss://gateway") && (that.url.indexOf("discord.gg") != -1))
 			{
@@ -38,6 +40,7 @@ export default class OsSpoof extends BasePlugin {
 			if (data.op === 6 && !websocketInited) {
 				console.log("[OsSpoof] Blocking resume with dumb session ID...");
 				data.d.session_id = genRanHex(32);
+				payloadModified = true;
 			}
 
 			if (data.op === 2) {
@@ -72,11 +75,18 @@ export default class OsSpoof extends BasePlugin {
 						data.d.properties = { browser: "Discord Android", os: "Windows Phone" };
 						break;
 				}
+				payloadModified = true;
 				websocketInited = true;
 				discordWebSocket = that;
 			}
 
-			args[0] = erlpack.pack(data);
+			if (payloadModified) {
+				console.log("[OsSpoof] Re-encoding modified payload...");
+
+				const encoder = new EtfEncoder();
+				encoder.pack(data);
+				args[0] = encoder.buffer.slice(0, encoder.offset);
+			}
 
 			return args;
 		});

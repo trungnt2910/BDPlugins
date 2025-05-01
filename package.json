@@ -22,7 +22,6 @@
   "homepage": "https://github.com/trungnt2910/BDPlugins#readme",
   "description": "",
   "dependencies": {
-    "@types/lodash": "^4.14.186",
-    "erlpackjs": "^1.0.1"
+    "@types/lodash": "^4.14.186"
   }
 }

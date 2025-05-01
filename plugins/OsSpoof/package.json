@@ -13,7 +13,7 @@
                 "github_username": "trungnt2910"
             }
         ],
-        "version": "1.0.3",
+        "version": "1.0.4",
         "description": "Spoofs your client's operating system! Based on Kyza's PlatformEmulator.",
         "github": "https://github.com/trungnt2910/BDPlugins/tree/master/plugins/OsSpoof",
         "github_raw": "https://raw.githubusercontent.com/trungnt2910/BDPlugins/compiled/OsSpoof/OsSpoof.plugin.js"
@@ -52,7 +52,7 @@
         }
     ],
     "changelog": [
-        {"title": "Bugfixes", "type": "fixed", "items": ["Fixed a bug since the recent update from Discord where lodash (`_`) is no longer exposed in the Discord client."]}
+        {"title": "Bugfixes", "type": "fixed", "items": ["Fixed a bug that affects activity timestamps."]}
     ],
     "build": {
         "copy": true,
